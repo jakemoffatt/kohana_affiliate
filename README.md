@@ -10,4 +10,4 @@ can be tracked and accredited.
 
 ## Database Schema
 
-![Affiliate Database Schema](http://yuml.me/diagram/scruffy/class/[affiliates|id;slug;name;code;life]one->many[affiliate_hits|id;affiliate_id;timestamp;target;destination])
+![Affiliate Database Schema](http://yuml.me/diagram/scruffy/class/[affiliates|id;slug;name;code;life]one->many[affiliate_hits|id;affiliate_id;timestamp;target;])

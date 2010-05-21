@@ -2,6 +2,8 @@
 
 class Affiliate {
 
+	const CODE_KEY = 'affiliate_code';
+
 	/**
 	 * Examines the $_GET array for an affiliate tracking code and parameters.
 	 * Logs an affiliate hit and creates an affiliate tracking cookie.
@@ -9,7 +11,33 @@ class Affiliate {
 	 */
 	public static function track(array $params)
 	{
-		// Stub
+		$affiliate = ORM::factory('affiliate')
+			->where('code', '=', $params['via'])
+			->find();
+
+		if ($affiliate->loaded())
+		{
+			$target = Arr::get($params, 'target');
+			$affiliate->hit($target);
+
+			$code = Cookie::get(Affiliate::CODE_KEY);
+
+			$should_create_cookie = (bool)
+			(
+				! $code
+				OR
+				$code !== $affiliate->code AND Kohana::config('affiliate.overwritable')
+				OR
+				$code === $affiliate->code AND Kohana::config('affiliate.extendable')
+			);
+
+			$life = $affiliate->life ? $affiliate->life : Kohana::config('affiliate.default_life');
+
+			if ($should_create_cookie)
+			{
+				Cookie::set(Affiliate::CODE_KEY, $affiliate->code, $life);
+			}
+		}
 	}
 
 	/**
@@ -18,9 +46,7 @@ class Affiliate {
 	 */
 	public static function cookie_exists()
 	{
-		// Stub
-
-		return FALSE;
+		return (bool) Cookie::get(Affiliate::CODE_KEY);
 	}
 
 	/**
@@ -31,9 +57,21 @@ class Affiliate {
 	 */
 	public static function identify()
 	{
-		// Stub
+		$affiliate = NULL;
 
-		return NULL;
+		if (Affiliate::cookie_exists())
+		{
+			$affiliate = ORM::factory('affiliate')
+				->where('code', '=', Cookie::get(Affiliate::CODE_KEY))
+				->find();
+
+			if ( ! $affiliate->loaded())
+			{
+				$affiliate = NULL;
+			}
+		}
+
+		return $affiliate;
 	}
 
 	/**
@@ -41,7 +79,7 @@ class Affiliate {
 	 */
 	public static function clear()
 	{
-		// Stub
+		return Cookie::delete(Affiliate::CODE_KEY);
 	}
 
 } // End Affilate
