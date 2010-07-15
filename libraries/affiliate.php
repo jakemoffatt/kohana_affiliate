@@ -65,7 +65,7 @@ class Affiliate {
 		if (Affiliate::cookie_exists())
 		{
 			$affiliate = ORM::factory('affiliate')
-				->where('code', '=', Cookie::get(Affiliate::CODE_KEY))
+				->where('code', Cookie::get(Affiliate::CODE_KEY))
 				->find();
 
 			if ( ! $affiliate->loaded())
