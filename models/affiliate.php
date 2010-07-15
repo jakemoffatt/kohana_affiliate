@@ -1,8 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-class Model_Affiliate extends ORM {
+class Affiliate_Model extends ORM {
 
-	protected $_has_many = array('affiliate_hits' => array());
+	protected $has_many = array(
+        'affiliate_hits',
+    );
 
 	public function hit($target = NULL)
 	{
