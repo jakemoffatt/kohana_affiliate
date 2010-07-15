@@ -9,4 +9,7 @@ $config['extendable'] = true;
 // How long should affiliate cookies last by default?
 $config['default_life'] = Date::MONTH;
 
+// What should the parameter, which defines who the affiliate is, be called?
+$config['param_name'] = 'via';
+
 ?>

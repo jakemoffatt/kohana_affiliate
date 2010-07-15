@@ -2,7 +2,10 @@
 
 class Affiliate {
 
-	const CODE_KEY = 'affiliate_code';
+	/**
+     * Name of the key to store in the cookie.
+     */
+    const CODE_KEY = 'affiliate_code';
 
 	/**
 	 * Examines the $_GET array for an affiliate tracking code and parameters.
@@ -12,7 +15,7 @@ class Affiliate {
 	public static function track(array $params)
 	{
 		$affiliate = ORM::factory('affiliate')
-			->where('code', '=', $params['via'])
+			->where('code', $params[Kohana::config('affiliate.param_name')])
 			->find();
 
 		if ($affiliate->loaded())
