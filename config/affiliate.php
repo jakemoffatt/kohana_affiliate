@@ -1,13 +1,12 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-return array
-(
-	// Can other affiliate cookies overwrite the current one?
-	'overwritable' => TRUE,
+// Can other affiliate cookies overwrite the current one?
+$config['overwritable']	= true;
 
-	// Is the affiliate cookie life extended on each affiliate hit?
-	'extendable'   => TRUE,
+// Is the affiliate cookie life extended on each affiliate hit?
+$config['extendable'] = true;
 
-	// How long should affiliate cookies last by default?
-	'default_life' => Date::MONTH,
-);
+// How long should affiliate cookies last by default?
+$config['default_life'] = Date::MONTH;
+
+?>
